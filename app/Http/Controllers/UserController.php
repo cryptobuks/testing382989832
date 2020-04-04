@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
 use Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
@@ -35,18 +32,16 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|max:255',
             'password' => 'required|string|min:8|max:255',
         ]);
 
         if ($validator->fails()) {
-            $this->respondInvalidParams($validator->message());
+            return $this->respondInvalidParams($validator->message());
         }
 
-        if (!$token = Auth::guard('api')->attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+        if (!$token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return $this->respondUnauthorized();
         }
 
@@ -74,30 +69,6 @@ class UserController extends Controller
     public function unauthorized()
     {
         return $this->respondUnauthorized();
-    }
-
-    protected function respondSuccess($message)
-    {
-        return response()->json([
-            'status' => 'success',
-            'messages' => $message
-        ], 200);
-    }
-
-    protected function respondInvalidParams($message)
-    {
-        return response()->json([
-            'status' => 'error',
-            'messages' => $message
-        ], 400);
-    }
-
-    protected function respondUnauthorized()
-    {
-        return response()->json([
-            'status' => 'error',
-            'messages' => "Unauthorized"
-        ], 401);
     }
 
     protected function respondWithToken($token)
