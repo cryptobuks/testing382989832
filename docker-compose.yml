@@ -32,6 +32,8 @@ services:
     ports:
       - "8080:80"
       - "443:443"
+    depends_on:
+      - app
     volumes:
       - ./:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
