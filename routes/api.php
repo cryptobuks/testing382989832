@@ -21,4 +21,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user', 'UserController@user')->name('api.jwt.user');;
     Route::get('refresh', 'UserController@refresh')->name('api.jwt.refresh');
     Route::get('logout', 'UserController@logout')->name('api.jwt.logout');
+
+    Route::post('withdraw', 'TransactionController@withdraw')->name('api.transaction.withdraw');
+    Route::post('deposit', 'TransactionController@deposit')->name('api.transaction.deposit');
+    Route::post('transfer', 'TransactionController@transfer')->name('api.transaction.transfer');
 });
