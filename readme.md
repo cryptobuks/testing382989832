@@ -18,5 +18,7 @@ The detail about API can be found in [Postman Collection](Indodax.postman_collec
 This apps use docker compose to setup the environment. That is why you can run this apps by executing ```docker-compose up```.
 It will automatically setup database, web server and another needed dependencies, so you can run the apps instantly on any other platform.
 
+Additionally, you have to import [Store Procedure](store_procedure.sql) first.
+
 ## License
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
